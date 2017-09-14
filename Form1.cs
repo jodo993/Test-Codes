@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Calculator
+namespace NameSearch
 {
     public partial class Form1 : Form
     {
@@ -17,27 +17,31 @@ namespace Calculator
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void addButton_Click(object sender, EventArgs e)
         {
-            int num1 = 0;
-            int num2 = 0;
-
-            num1 = int.Parse(textBox1.Text);
-            num2 = int.Parse(textBox2.Text);
-
-            int total = num1 + num2;
-            textBox3.Text = total.ToString();
-
+            this.Hide();
+            addform newadd = new addform();
+            newadd.ShowDialog();
+            this.Close();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void updateButton_Click(object sender, EventArgs e)
         {
-            textBox1.Text = "";
-            textBox2.Text = "";
-            textBox3.Text = "";
+            this.Hide();
+            update newup = new update();
+            newup.ShowDialog();
+            this.Close();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void removeButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            remove newremove = new remove();
+            newremove.ShowDialog();
+            this.Close();
+        }
+
+        private void exitButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
