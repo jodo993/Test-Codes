@@ -13,7 +13,7 @@ namespace NameSearch
 {
     public partial class update : Form
     {
-        SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\josep\Documents\testName.mdf;Integrated Security=True;Connect Timeout=30");
+        SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\josep\Desktop\testName.mdf;Integrated Security=True;Connect Timeout=30");
         public update()
         {
             InitializeComponent();
@@ -29,11 +29,46 @@ namespace NameSearch
             con.Open();
             SqlCommand cmd = con.CreateCommand();
             cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "update infoTable set age='" + textBox2.Text + "' where age='"+textBox3.Text+"'";
+            cmd.CommandText = "update infoTable set age='" + textBox2.Text + "' where name='"+textBox3.Text+"'";
             cmd.ExecuteNonQuery();
             con.Close();
 
             MessageBox.Show("updated");
+        }
+
+        private void searchButton_Click(object sender, EventArgs e)
+        {
+            con.Open();
+            SqlCommand cmd = con.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "select * from infoTable where name='" + searchTextBox.Text + "'";
+            cmd.ExecuteNonQuery();
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            dataGridView1.DataSource = dt;
+
+            con.Close();
+        }
+
+        public void showData()
+        {
+            con.Open();
+            SqlCommand cmd = con.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "select * from infoTable";
+            cmd.ExecuteNonQuery();
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            dataGridView1.DataSource = dt;
+
+            con.Close();
+        }
+
+        private void showButton_Click(object sender, EventArgs e)
+        {
+            showData();
         }
     }
 }
