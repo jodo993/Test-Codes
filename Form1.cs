@@ -23,14 +23,14 @@ namespace WriteToExcelTest
             try
             {
                 Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
-                Microsoft.Office.Interop.Excel.Workbook sheet = excel.Workbooks.Open("C:\\testSheet.xlsx");
+                Microsoft.Office.Interop.Excel.Workbook sheet = excel.Workbooks.Open("testSheet1.xlsx");
                 Microsoft.Office.Interop.Excel.Worksheet x = excel.ActiveSheet as Microsoft.Office.Interop.Excel.Worksheet;
 
-                Excel.Range userRange = x.UsedRange;
-                int count = userRange.Rows.Count;
+                //Excel.Range userRange = x.UsedRange;
+                //int count = userRange.Rows.Count;
 
-                int add = count + 1;
-                x.Cells[add, 1] = "Total Rows " + count;
+                //int add = count + 1;
+                //x.Cells[add, 1] = "Total Rows " + count;
 
 
                 //x.Range["A2"].Value = textBox1.Text;
@@ -39,28 +39,31 @@ namespace WriteToExcelTest
                 //x.Range["D2"].Value = textBox4.Text;
                 //x.Range["E2"].Value = textBox5.Text;
                 //x.Range["F2"].Value = DateTime.Now;
-
-                int row = 1;
+     
+                int row = 2;
                 int column = 1;
 
-                //while (x.Cells != null)
-                //    row = row + 1;
+                while (x.Cells[row,column].Value != null)
+                    row = row + 1;
 
-                label1.Text = row.ToString();
+                // label1.Text = row.ToString();
 
-                x.Cells[row, column] = textBox1.Text;
+                x.Cells[row, column].Value = textBox1.Text;
                 column += 1;
-                x.Cells[row, column] = textBox2.Text;
+                x.Cells[row, column].Value = textBox2.Text;
                 column += 1;
-                x.Cells[row, column] = textBox3.Text;
+                x.Cells[row, column].Value = textBox3.Text;
                 column += 1;
-                x.Cells[row, column] = textBox4.Text;
+                x.Cells[row, column].Value = textBox4.Text;
                 column += 1;
-                x.Cells[row, column] = textBox5.Text;
-                column += 1;
-                x.Cells[row, column] = DateTime.Now;
+                x.Cells[row, column].Value = textBox5.Text;
                 column += 1;
 
+                label1.Text = "Processing....";
+                label1.Visible = false;
+
+                MessageBox.Show("DOne");
+                
 
                 sheet.Close(true, Type.Missing, Type.Missing);
                 excel.Quit();
