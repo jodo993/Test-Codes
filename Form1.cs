@@ -20,8 +20,8 @@ namespace AccessDBTest
         {
             InitializeComponent();
 
-            // Connect to database
-            connection.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\josep\Desktop\MainDB.accdb;Persist Security Info=False;";
+            // Connect to database                                                        Possible new line after dont copy and paste copy and type
+            connection.ConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=T:\MainDB.accdb;Persist Security Info=False;";
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -30,7 +30,20 @@ namespace AccessDBTest
             {
                 connection.Open();
                 checkConnection.Text = "Success";
+
+                OleDbCommand command = new OleDbCommand();
+                command.Connection = connection;
+                string query = "select * from Main";
+                command.CommandText = query;
+
+                OleDbDataReader reader = command.ExecuteReader();
+                while(reader.Read())
+                {
+                    comboBox1.Items.Add(reader["FullName"].ToString());
+                }
+
                 connection.Close();
+
             }
             catch(Exception ex)
             {
@@ -142,6 +155,28 @@ namespace AccessDBTest
             {
                 MessageBox.Show("Error" + ex);
             }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            comboBox2.Items.Clear();
+            string selection = comboBox1.Text;
+
+            connection.Open();
+            checkConnection.Text = "Success";
+
+            OleDbCommand command = new OleDbCommand();
+            command.Connection = connection;
+            string query = "select * from Main where FullName='" + selection + "'";
+            command.CommandText = query;
+
+            OleDbDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                comboBox2.Items.Add(reader["lunchID"].ToString());
+            }
+
+            connection.Close();
         }
     }
 }
