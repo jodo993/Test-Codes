@@ -7,11 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
-namespace WindowsFormsApp1
+namespace SQL_Dynamic_Table_Creation
 {
     public partial class Form1 : Form
     {
+        SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\josep\Documents\TableTest.mdf;Integrated Security=True;Connect Timeout=30");
         public Form1()
         {
             InitializeComponent();
@@ -22,64 +24,25 @@ namespace WindowsFormsApp1
             string first = textBox1.Text;
             string second = textBox2.Text;
             string third = textBox3.Text;
+            string fourth = textBox4.Text;
+            string fifth = textBox5.Text;
+            string name = textBox6.Text;
 
-            List<string> firstList = new List<string>();
-            List<string> secondList = new List<string>();
-            List<string> thirdList = new List<string>();
+            connection.Open();
 
-            double numWord = 0.0;
-            foreach (string word in first.Split())
-            {
-                firstList.Add(word);
-                numWord++;
-            }
+            SqlCommand command = connection.CreateCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = "CREATE TABLE " + name + "("
+                                + first + " int,"
+                                + second + " int,"
+                                + third + " int,"
+                                + fourth + " int,"
+                                + fifth + " int,"
+                                + ")";
+            command.ExecuteNonQuery();
 
-            double numWord2 = 0.0;
-            foreach (string word2 in second.Split())
-            {
-                secondList.Add(word2);
-                numWord2++;
-            }
-
-            double numWord3 = 0.0;
-            foreach (string word3 in third.Split())
-            {
-                secondList.Add(word3);
-                numWord3++;
-            }
-
-            label1.Text = numWord.ToString();
-            label2.Text = numWord2.ToString();
-            label7.Text = numWord3.ToString();
-
-            secondList.AddRange(thirdList);
-
-            double totalWords = 0.0;
-            totalWords = numWord + numWord2;
-
-            double matches = 0.0;
-
-            for (int i = 0; i < numWord; i++)
-            {
-                if (secondList.Contains(firstList[i]))
-                    matches++;
-            }
-            matches = matches * 2;
-
-            label3.Text = "word matched: " + matches.ToString();
-
-            double percentMatch = 0.0;
-            percentMatch = (matches / totalWords) * 100;
-            if (radioButton1.Checked)
-                percentMatch = percentMatch - 3.33;
-            percentMatch = Math.Round(percentMatch, 2);
-            label4.Text = percentMatch.ToString() + "% of the sentences matched.";
-            label5.Text = "total words: " + totalWords.ToString();
-
-            if (percentMatch > 33.32)
-                label8.Text = "good match";
-            else
-                label8.Text = "bad match";
+            connection.Close();
+            MessageBox.Show("Success!");
         }
     }
 }
